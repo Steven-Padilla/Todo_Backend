@@ -8,6 +8,7 @@ import {
   Body,
   Param,
   BadRequestException,
+  Delete,
 } from "@nestjs/common";
 
 @Controller("todo")
@@ -34,6 +35,14 @@ export class TodoController {
   async updateTodo(@Body() body: ToDo, @Param("id") id: number) {
     const { title, description } = body;
     const response = await this.todoService.updateTodo(id, title, description);
+    if (!response) {
+      this.errorNotFound();
+    }
+    return response;
+  }
+  @Delete("/:id")
+  async deleteTodo(@Param("id") id: number) {
+    const response = await this.todoService.deleteTodo(id);
     if (!response) {
       this.errorNotFound();
     }

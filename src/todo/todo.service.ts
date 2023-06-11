@@ -30,4 +30,12 @@ export class TodoService {
     }
     return null;
   }
+  async deleteTodo(id: number) {
+    const target = await ToDo.findByPk(id);
+    if (target) {
+      await target.destroy()
+      return true;
+    }
+    return false;
+  }
 }
