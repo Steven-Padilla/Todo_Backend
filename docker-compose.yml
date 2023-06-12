@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  todo_app:
+    build: .
+    image: "todo_backend"
+    ports: 
+      - "3000:3000"
+    # links:
+    #   - todo_front
+  todo_front:
+    build: .
+    image: "todo_front:latest"
+    ports:
+      - "4200:80"
+    links:
+      - todo_app

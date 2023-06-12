@@ -2,14 +2,14 @@ FROM node:18 AS build
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY ./dist ./dist
 
-RUN npm install --only=production
+COPY package.json ./
 
-COPY . .
+# RUN npm i -g @nestjs/cli
 
-RUN npm run build
+RUN npm i --omit-dev
 
-EXPOSE 4200
+EXPOSE 3000
 
 CMD ["node", "dist/main"]
