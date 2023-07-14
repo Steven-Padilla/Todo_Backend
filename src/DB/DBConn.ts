@@ -6,7 +6,7 @@ export const DBConn = new Sequelize({
 const test = async () => {
   let flag=false;
   try {
-    await DBConn.sync({ alter: true });
+    await DBConn.sync();
     await DBConn.authenticate().then(() => {
       flag=true;
     });

@@ -9,6 +9,8 @@ import {
   Param,
   BadRequestException,
   Delete,
+  HttpException,
+  HttpStatus,
 } from "@nestjs/common";
 
 @Controller("todo")
@@ -28,8 +30,12 @@ export class TodoController {
   }
   @Post()
   async createTodo(@Body() body: ToDo) {
-    const { title, description } = body;
-    return this.todoService.createTodo(title, description);
+    const { title, description,userIdName } = body;
+    const data=await this.todoService.createTodo(title, description,userIdName);
+    if(data){
+      return data; 
+    }
+    throw new HttpException('Error creating ToDo',HttpStatus.BAD_REQUEST,{cause: new Error ('Foreing key problems')})
   }
   @Put("/:id")
   async updateTodo(@Body() body: ToDo, @Param("id") id: number) {

@@ -12,12 +12,18 @@ export class TodoService {
     return response;
   }
 
-  async createTodo(title: string, description: string) {
+  async createTodo(title: string, description: string,userIdName:string) {
     title = title ? title : "Todo title";
-    return await ToDo.create({
-      title,
-      description,
-    });
+    try {
+      return await ToDo.create({
+        title,
+        description,
+        userIdName
+  
+      });
+    } catch (error) {
+      return null
+    }
   }
   async updateTodo(id: number, title: string, description: string) {
     const target = await ToDo.findByPk(id);
