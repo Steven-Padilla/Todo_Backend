@@ -12,22 +12,20 @@ import {
   HttpException,
   HttpStatus,
 } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('ToDo')
 @Controller("todo")
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
-  @Get()
-  async getAllTodo() {
-    return await this.todoService.getAllTodo();
+  @Get('/:idName')
+  async getAllTodo(@Param('idName') userIdName:string) {
+    return await this.todoService.getAllTodo(userIdName);
   }
-  @Get("/:id")
-  async getByIdTodo(@Param("id") id: number) {
-    const response = await this.todoService.getByPkTodo(id);
-    if (response) {
-      return response;
-    }
-    this.errorNotFound();
-  }
+  /**
+   * This URL create a new ToDo and adds it to DB
+   * It is necessary to have a correct idName 
+   */
   @Post()
   async createTodo(@Body() body: ToDo) {
     const { title, description,userIdName } = body;

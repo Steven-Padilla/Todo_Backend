@@ -3,13 +3,10 @@ import { ToDo } from "src/todo/Todo.entity";
 
 @Injectable()
 export class TodoService {
-  async getAllTodo() {
-    return await ToDo.findAll();
-  }
-  async getByPkTodo(id: number) {
-    const todo = await ToDo.findByPk(id);
-    const response = todo ? todo : null;
-    return response;
+  async getAllTodo(userIdName:string) {
+    return await ToDo.findAll({
+      where:{userIdName}
+    });
   }
 
   async createTodo(title: string, description: string,userIdName:string) {
@@ -28,11 +25,10 @@ export class TodoService {
   async updateTodo(id: number, title: string, description: string) {
     const target = await ToDo.findByPk(id);
     if (target) {
-      await target.update({
+      return await target.update({
         title,
         description,
       });
-      return target;
     }
     return null;
   }
